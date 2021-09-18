@@ -1,3 +1,1 @@
-# Vue.js
-Created with CodeSandbox
-# https://codesandbox.io/s/wonderful-fast-gco4m
+Simple calculator, just trying out Vue.js
