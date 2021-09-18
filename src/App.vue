@@ -1,68 +1,48 @@
 <template>
     <div id="app">
-        <ColorText :msg="text" />
-        <br />
-
-        <div v-for="item in array" :key="item">
-            <ColorText :msg="item" />
-        </div>
-        <br />
-
-        <Input @set-input-value="setInputValue($event)" />
-        <ColorText
-            :msg="
-                'Get value from Input and send it to ColorText: ' + inputValue
-            "
-        />
-        <br />
-
-        <Input
-            placeholder="Type a color..."
-            @set-input-value="setColor($event)"
-        />
-        <ColorText
-            :color="color"
-            :msg="'This font color is customizable on the fly'"
-        />
+        <h2>{{ title }}</h2>
+        <ButtonPanel />
+        <Output :value="currentValue" />
+        <Output :value="totalValue" />
     </div>
 </template>
 
 <script>
-import ColorText from "./components/ColorText";
-import Input from "./components/Input";
+    import ButtonPanel from "./components/ButtonPanel/ButtonPanel.vue"
+    import Output from "./components/Output.vue"
 
-export default {
-    name: "App",
-    components: {
-        ColorText,
-        Input,
-    },
-    methods: {
-        setInputValue(value) {
-            this.inputValue = value;
+    export default {
+        name: "App",
+        components: {
+            ButtonPanel,
+            Output,
         },
-        setColor(value) {
-            this.color = value;
+        computed: {
+            currentValue() {
+                return this.$store.getters.getCurrent
+            },
+            totalValue() {
+                return this.$store.getters.getTotal
+            },
         },
-    },
-    data() {
-        return {
-            text: "Send this text to child",
-            array: "Testing v-for with this array".split(" "),
-            inputValue: "",
-            color: "",
-        };
-    },
-};
+        data() {
+            return {
+                title: "Calculator in Vue.js",
+            }
+        },
+    }
 </script>
 
 <style>
 #app {
+    margin-top: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     font-family: "Segoe UI", Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
-    color: #2c3e50;
-    margin-top: 60px;
+    color:lightblue;
 }
 </style>
