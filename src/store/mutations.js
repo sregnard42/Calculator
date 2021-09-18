@@ -19,6 +19,9 @@ export default {
     // When pressing any button between 0 and 9
     addDigit(state, value) {
         state.current = state.current * 10 + value
+        if (state.operator === null) {
+            state.total = state.current
+        }
     },
 
     // When pressing any button from the following : +, -, ×, or ÷
