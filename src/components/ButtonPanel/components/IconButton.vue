@@ -6,7 +6,7 @@
 
 <script>
 export default {
-    name: "Button",
+    name: "IconButton",
     methods: {
         keymonitor: function (e) {
             e.preventDefault()

@@ -4,39 +4,39 @@
             <div class="row">
                 <div class="column-reverse">
                     <div class="row">
-                        <Button @click.native="dispatch('reset')">
+                        <IconButton @click.native="dispatch('reset')">
                             {{ OPERATOR_RESET }}
-                        </Button>
-                        <Button @click.native="dispatch('addDigit', 0)">
+                        </IconButton>
+                        <IconButton @click.native="dispatch('addDigit', 0)">
                             0
-                        </Button>
-                        <Button @click.native="dispatch('showResult')">
+                        </IconButton>
+                        <IconButton @click.native="dispatch('showResult')">
                             {{ OPERATOR_EQUAL }}
-                        </Button>
+                        </IconButton>
                     </div>
                     <div class="row" v-for="row in 3" :key="row">
-                        <Button
+                        <IconButton
                             v-for="digit in rowDigits(row, 3)"
                             :key="digit"
                             @click.native="dispatch('addDigit', digit)"
                         >
                             {{ digit }}
-                        </Button>
+                        </IconButton>
                     </div>
                 </div>
                 <div class="column">
-                    <Button @click.native="dispatch('addOperator', OPERATOR_ADD)">
+                    <IconButton @click.native="dispatch('addOperator', OPERATOR_ADD)">
                         {{ OPERATOR_ADD }}
-                    </Button>
-                    <Button @click.native="dispatch('addOperator', OPERATOR_SUB)">
+                    </IconButton>
+                    <IconButton @click.native="dispatch('addOperator', OPERATOR_SUB)">
                         {{ OPERATOR_SUB }}
-                    </Button>
-                    <Button @click.native="dispatch('addOperator', OPERATOR_MUL)">
+                    </IconButton>
+                    <IconButton @click.native="dispatch('addOperator', OPERATOR_MUL)">
                         {{ OPERATOR_MUL }}
-                    </Button>
-                    <Button @click.native="dispatch('addOperator', OPERATOR_DIV)">
+                    </IconButton>
+                    <IconButton @click.native="dispatch('addOperator', OPERATOR_DIV)">
                         {{ OPERATOR_DIV }}
-                    </Button>
+                    </IconButton>
                 </div>
             </div>
         </div>
@@ -44,7 +44,7 @@
 </template>
 
 <script>
-    import Button from "./components/IconButton.vue"
+    import IconButton from "./components/IconButton.vue"
     import OPERATORS from "../../constants/operators"
 
     const{ OPERATOR_ADD, OPERATOR_SUB, OPERATOR_MUL, OPERATOR_DIV, OPERATOR_RESET, OPERATOR_EQUAL } = OPERATORS
@@ -52,7 +52,7 @@
     export default {
         name: "ButtonPanel",
         components: {
-            Button,
+            IconButton,
         },
         mounted() {
             document.getElementById("keylistener").focus()
