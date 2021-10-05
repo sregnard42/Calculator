@@ -1,55 +1,50 @@
 <template>
     <div>
-        <div id="keylistener" tabindex="0" @keyup="keymonitor"></div>
-        <div class="row">
-            <div class="column-reverse">
-                <div class="row">
-                    <Button
-                        :label="OPERATOR_RESET"
-                        @click.native="dispatch('reset')"
-                    />
-                    <Button
-                        label="0"
-                        @click.native="dispatch('addDigit', 0)"
-                    />
-                    <Button
-                        :label="OPERATOR_EQUAL"
-                        @click.native="dispatch('showResult')"
-                    />
+        <div id="keylistener" tabindex="0" @keyup="keymonitor">
+            <div class="row">
+                <div class="column-reverse">
+                    <div class="row">
+                        <Button @click.native="dispatch('reset')">
+                            {{ OPERATOR_RESET }}
+                        </Button>
+                        <Button @click.native="dispatch('addDigit', 0)">
+                            0
+                        </Button>
+                        <Button @click.native="dispatch('showResult')">
+                            {{ OPERATOR_EQUAL }}
+                        </Button>
+                    </div>
+                    <div class="row" v-for="row in 3" :key="row">
+                        <Button
+                            v-for="digit in rowDigits(row, 3)"
+                            :key="digit"
+                            @click.native="dispatch('addDigit', digit)"
+                        >
+                            {{ digit }}
+                        </Button>
+                    </div>
                 </div>
-                <div class="row" v-for="row in 3" :key="row">
-                    <Button
-                        v-for="col in 3"
-                        :key="col + (3 * (row - 1))"
-                        :label="(col + (3 * (row - 1))).toString()"
-                        @click.native="dispatch('addDigit', col + (3 * (row - 1)))"
-                    />
+                <div class="column">
+                    <Button @click.native="dispatch('addOperator', OPERATOR_ADD)">
+                        {{ OPERATOR_ADD }}
+                    </Button>
+                    <Button @click.native="dispatch('addOperator', OPERATOR_SUB)">
+                        {{ OPERATOR_SUB }}
+                    </Button>
+                    <Button @click.native="dispatch('addOperator', OPERATOR_MUL)">
+                        {{ OPERATOR_MUL }}
+                    </Button>
+                    <Button @click.native="dispatch('addOperator', OPERATOR_DIV)">
+                        {{ OPERATOR_DIV }}
+                    </Button>
                 </div>
-            </div>
-            <div class="column">
-                <Button
-                    :label="OPERATOR_ADD"
-                    @click.native="dispatch('addOperator', OPERATOR_ADD)"
-                />
-                <Button
-                    :label="OPERATOR_SUB"
-                    @click.native="dispatch('addOperator', OPERATOR_SUB)"
-                />
-                <Button
-                    :label="OPERATOR_MUL"
-                    @click.native="dispatch('addOperator', OPERATOR_MUL)"
-                />
-                <Button
-                    :label="OPERATOR_DIV"
-                    @click.native="dispatch('addOperator', OPERATOR_DIV)"
-                />
             </div>
         </div>
     </div>
 </template>
 
 <script>
-    import Button from "./components/Button.vue"
+    import Button from "./components/IconButton.vue"
     import OPERATORS from "../../constants/operators"
 
     const{ OPERATOR_ADD, OPERATOR_SUB, OPERATOR_MUL, OPERATOR_DIV, OPERATOR_RESET, OPERATOR_EQUAL } = OPERATORS
@@ -60,11 +55,10 @@
             Button,
         },
         mounted() {
-            document.getElementById("keylistener").focus()  
+            document.getElementById("keylistener").focus()
         },
         methods: {
             keymonitor: function ({ key }) {
-                console.log(key)
                 const { dispatch } = this.$store
                 if (key >= 0 && key <= 9) {
                     dispatch("addDigit", parseInt(key))
@@ -84,7 +78,15 @@
                 else if ([OPERATOR_ADD, OPERATOR_SUB].includes(key)) {
                     dispatch("addOperator", key)
                 }
-            }
+            },
+            rowDigits(row, nbOfDigits) {
+                const digits = []
+                for (let i = 1 ; i <= nbOfDigits ; i++) {
+                    const digit = (row - 1) * nbOfDigits + i
+                    digits.push(digit)
+                }
+                return digits
+            },
         },
         data() {
             const { dispatch } = this.$store
@@ -103,12 +105,11 @@
 
 <style scoped>
     #keylistener {
-        position: absolute;
-        left: 0;
-        top: 0;
         width: 100%;
         height: 100%;
         outline: none;
+        background-color: rgba(0, 0, 0, 0.2);
+        border-radius: 5%;
     }
     .column {
         display: flex;

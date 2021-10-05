@@ -17,9 +17,7 @@ const calc = (state) => {
     }
 }
 
-const previouslyShowedResult = (state) => {
-    return state.input.slice(-1) === "="
-}
+let lastAction = null
 
 export default {
     // When pressing any button between 0 and 9
@@ -28,29 +26,34 @@ export default {
         if (state.operator === null) {
             state.total = state.current
         }
-        if (previouslyShowedResult(state)) {
+        if (lastAction === "showResult") {
             state.input = ""
         }
         state.input += value
+        lastAction = "addDigit"
     },
 
     // When pressing any button from the following : +, -, ×, or ÷
     addOperator(state, value) {
-        calc(state)
+        if (lastAction !== "addOperator") {
+            calc(state)
+        }
         state.operator = value
         state.current =  0
         state.input = state.total + " " + state.operator + " "
+        lastAction = "addOperator"
     },
 
     // When pressing =
     showResult(state) {
-        if (previouslyShowedResult(state)) {
+        if (lastAction !== "addDigit") {
             return
         }
         calc(state)
         state.operator = null
         state.current = 0
         state.input += " " + "="
+        lastAction = "showResult"
     },
 
     // When pressing C
@@ -59,5 +62,6 @@ export default {
         state.current = 0
         state.total = 0
         state.input = ""
+        lastAction = null
     },
 }

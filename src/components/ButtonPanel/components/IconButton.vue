@@ -1,6 +1,6 @@
 <template>
     <button @keydown="keymonitor">
-        {{ label }}
+        <slot />
     </button>
 </template>
 
@@ -11,12 +11,6 @@ export default {
         keymonitor: function (e) {
             e.preventDefault()
         }
-    },
-    props: {
-        label: {
-            type: String,
-            required: true,
-        },
     },
 };
 </script>
