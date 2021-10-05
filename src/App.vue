@@ -2,8 +2,9 @@
     <div id="app">
         <h2>{{ title }}</h2>
         <ButtonPanel />
-        <Output :value="currentValue" />
-        <Output :value="totalValue" />
+        <!-- <Output :value="currentValue" /> -->
+        <Output :value="inputString" />
+        <Output :value="totalValue" size="2" />
     </div>
 </template>
 
@@ -24,6 +25,9 @@
             totalValue() {
                 return this.$store.getters.getTotal
             },
+            inputString() {
+                return this.$store.getters.getInput
+            }
         },
         data() {
             return {

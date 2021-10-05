@@ -12,7 +12,13 @@ const calc = (state) => {
     const { operator, total, current } = state
     const defaultValue = total === 0 ? current : total
     state.total = operator ? operations[operator](total, current) : defaultValue
-    console.log(total, operator, current, "=", state.total)
+    if (operator) {
+        console.log(total, operator, current, "=", state.total)
+    }
+}
+
+const previouslyShowedResult = (state) => {
+    return state.input.slice(-1) === "="
 }
 
 export default {
@@ -22,6 +28,10 @@ export default {
         if (state.operator === null) {
             state.total = state.current
         }
+        if (previouslyShowedResult(state)) {
+            state.input = ""
+        }
+        state.input += value
     },
 
     // When pressing any button from the following : +, -, ×, or ÷
@@ -29,13 +39,18 @@ export default {
         calc(state)
         state.operator = value
         state.current =  0
+        state.input = state.total + " " + state.operator + " "
     },
 
     // When pressing =
     showResult(state) {
+        if (previouslyShowedResult(state)) {
+            return
+        }
         calc(state)
         state.operator = null
         state.current = 0
+        state.input += " " + "="
     },
 
     // When pressing C
@@ -43,5 +58,6 @@ export default {
         state.operator = null
         state.current = 0
         state.total = 0
+        state.input = ""
     },
 }

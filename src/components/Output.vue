@@ -9,9 +9,13 @@ export default {
     name: "Output",
     props: {
         value: {
-            type: Number,
-            default: 0,
-        }
+            type: String,
+            default: "0",
+        },
+        size: {
+            type: String,
+            default: "1",
+        },
     },
 }
 </script>
@@ -32,5 +36,9 @@ export default {
         background-color: lightblue;
         color: rgb(42, 42, 142);
         font-size: 2em;
+        
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 </style>

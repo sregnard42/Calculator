@@ -1,5 +1,5 @@
 <template>
-    <button>
+    <button @keydown="keymonitor">
         {{ label }}
     </button>
 </template>
@@ -7,6 +7,11 @@
 <script>
 export default {
     name: "Button",
+    methods: {
+        keymonitor: function (e) {
+            e.preventDefault()
+        }
+    },
     props: {
         label: {
             type: String,
@@ -22,6 +27,7 @@ export default {
         height: 3em;
         padding: 0.8em;
         margin: 0.1em;
+        outline: none;
         border: none;
         border-radius: 50%;
         font-size: 2em;
